@@ -63,6 +63,20 @@ async function login() {
   localStorage.token = data.token;
   window.location.href = "app.html";
 }
+export async function onRequestPost({ request, env }) {
+  const { usuario, senha } = await request.json();
+
+  if (usuario === "3080117" && senha === "1015") {
+    return new Response(JSON.stringify({
+      token: "ADMIN_TOKEN_FIXO"
+    }), {
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  return new Response("Unauthorized", { status: 401 });
+}
+
 </script>
 </body>
 </html>
