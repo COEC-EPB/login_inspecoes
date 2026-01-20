@@ -2,81 +2,42 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Login - Inspeções</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<title>Login</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.box {
-  background: #fff;
-  padding: 30px;
-  width: 300px;
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
-}
-input, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-}
-button {
-  background: #0097CE;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
+body{font-family:Arial;background:#f4f6f8;display:flex;justify-content:center;align-items:center;height:100vh}
+.box{background:#fff;padding:30px;width:300px}
+input,button{width:100%;padding:10px;margin-top:10px}
+button{background:#0097CE;color:#fff;border:none}
 </style>
 </head>
-
 <body>
 <div class="box">
-  <h2>Login</h2>
-  <input id="usuario" placeholder="Usuário">
-  <input id="senha" type="password" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
-  <p id="erro" style="color:red"></p>
+<h2>Login</h2>
+<input id="usuario" placeholder="Usuário">
+<input id="senha" type="password" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+<p id="erro" style="color:red"></p>
 </div>
-
 <script>
-async function login() {
-  const usuario = document.getElementById("usuario").value;
-  const senha = document.getElementById("senha").value;
+async function login(){
+  const usuario=document.getElementById("usuario").value;
+  const senha=document.getElementById("senha").value;
 
-  const res = await fetch("/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ usuario, senha })
+  const res = await fetch("/login",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({usuario,senha})
   });
 
-  if (!res.ok) {
-    document.getElementById("erro").innerText = "Login inválido";
+  if(!res.ok){
+    document.getElementById("erro").innerText="Login inválido";
     return;
   }
 
-  const data = await res.json();
-  localStorage.token = data.token;
-  window.location.href = "app.html";
+  const d = await res.json();
+  localStorage.token = d.token;
+  location.href="/app";
 }
-export async function onRequestPost({ request, env }) {
-  const { usuario, senha } = await request.json();
-
-  if (usuario === "3080117" && senha === "1015") {
-    return new Response(JSON.stringify({
-      token: "ADMIN_TOKEN_FIXO"
-    }), {
-      headers: { "Content-Type": "application/json" }
-    });
-  }
-
-  return new Response("Unauthorized", { status: 401 });
-}
-
 </script>
 </body>
 </html>
