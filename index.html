@@ -107,11 +107,10 @@
         return;
       }
 
-      // ✅ sessão
       localStorage.setItem("logado", "true");
-
-      // ✅ guarda perfil: "admin" ou "user"
+      localStorage.setItem("token", data.token);
       localStorage.setItem("perfil", data.perfil || "user");
+      localStorage.setItem("lider", data.lider || "");
 
       // ✅ redireciona
       window.location.href = "https://coec-epb.github.io/geral_colaboradores/";
