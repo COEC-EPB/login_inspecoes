@@ -5,120 +5,319 @@
   <title>Login - Inspeções</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- Ícones (Bootstrap Icons) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+    :root{
+      --primary:#0097CE;
+      --primary-dark:#007aa5;
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --danger:#b3261e;
+      --shadow: 0 18px 50px rgba(0,0,0,.12);
+      --radius: 16px;
     }
 
-    .login-box {
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(0,151,206,.18), transparent 55%),
+        radial-gradient(1000px 500px at 90% 25%, rgba(0,151,206,.10), transparent 55%),
+        var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 22px;
+      color: var(--text);
+    }
+
+    .shell{
+      width: min(420px, 100%);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom: 14px;
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .brand i{
+      width:42px;
+      height:42px;
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(0,151,206,.12);
+      border: 1px solid rgba(0,151,206,.22);
+      font-size: 20px;
+    }
+    .brand span{
+      font-size: 18px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card-header{
+      padding: 18px 18px 0 18px;
+    }
+
+    h2{
+      margin:0;
+      font-size: 18px;
+      color: var(--text);
+    }
+
+    .sub{
+      margin: 6px 0 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    form{
+      padding: 16px 18px 18px 18px;
+      display:grid;
+      gap: 12px;
+    }
+
+    label{
+      font-size: 12px;
+      font-weight: 700;
+      color: #374151;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .field{
+      display:grid;
+      gap: 6px;
+    }
+
+    .input-wrap{
+      position: relative;
+    }
+
+    input{
+      width:100%;
+      padding: 11px 12px 11px 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
       background: #fff;
-      padding: 30px;
-      width: 320px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.15);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #0097CE;
-    }
-
-    label {
-      font-weight: bold;
       font-size: 14px;
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .08s ease;
     }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0 15px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
+    input:focus{
+      border-color: rgba(0,151,206,.55);
+      box-shadow: 0 0 0 4px rgba(0,151,206,.16);
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #0097CE;
+    .input-icon{
+      position:absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .row-actions{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    button{
+      width:100%;
+      padding: 12px 14px;
+      background: var(--primary);
       border: none;
       color: #fff;
-      font-size: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 12px;
       cursor: pointer;
-      border-radius: 4px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      transition: background .15s ease, transform .08s ease;
+      user-select:none;
     }
 
-    button:hover {
-      background: #007aa5;
+    button:hover{ background: var(--primary-dark); }
+    button:active{ transform: translateY(1px); }
+    button:disabled{
+      opacity: .7;
+      cursor: not-allowed;
     }
 
-    .erro {
-      color: red;
-      text-align: center;
-      margin-top: 10px;
-      display: none;
+    .spinner{
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.45);
+      border-top-color: #fff;
+      animation: spin .9s linear infinite;
+      display:none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .erro{
+      display:none;
+      margin: 0 18px 18px 18px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(179,38,30,.22);
+      background: rgba(179,38,30,.08);
+      color: var(--danger);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .footer{
+      margin-top: 12px;
+      text-align:center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Acessibilidade: reduz animações */
+    @media (prefers-reduced-motion: reduce){
+      * { transition: none !important; animation: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <div class="login-box">
-    <h2>Login</h2>
+  <div class="shell">
+    <div class="brand">
+      <i class="bi bi-clipboard-check"></i>
+      <span>Inspeções</span>
+    </div>
 
-    <label>Usuário</label>
-    <input type="text" id="usuario" placeholder="Digite o usuário" />
+    <div class="card">
+      <div class="card-header">
+        <h2>Entrar</h2>
+        <p class="sub">Acesse o painel para visualizar inspeções e registrar medidas disciplinares.</p>
+      </div>
 
-    <label>Senha</label>
-    <input type="password" id="senha" placeholder="Digite a senha" />
+      <form onsubmit="event.preventDefault(); login();">
+        <div class="field">
+          <label for="usuario"><i class="bi bi-person"></i> Usuário</label>
+          <div class="input-wrap">
+            <i class="bi bi-person input-icon"></i>
+            <input type="text" id="usuario" placeholder="Digite sua matrícula/usuário" autocomplete="username" />
+          </div>
+        </div>
 
-    <button type="button" onclick="login()">Entrar</button>
+        <div class="field">
+          <label for="senha"><i class="bi bi-lock"></i> Senha</label>
+          <div class="input-wrap">
+            <i class="bi bi-lock input-icon"></i>
+            <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password" />
+          </div>
+        </div>
 
-    <div class="erro" id="erro">Usuário ou senha inválidos</div>
+        <div class="row-actions">
+          <div class="hint">Dica: use sua matrícula + senha cadastrada.</div>
+        </div>
+
+        <button id="btnLogin" type="submit">
+          <span class="spinner" id="spinner"></span>
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span id="btnText">Entrar</span>
+        </button>
+      </form>
+
+      <div class="erro" id="erro">
+        Usuário ou senha inválidos.
+      </div>
+    </div>
+
+    <div class="footer">© Controle de Inspeções</div>
   </div>
 
   <script>
     async function login() {
-  const usuario = document.getElementById("usuario").value.trim();
-  const senha = document.getElementById("senha").value.trim();
-  const erro = document.getElementById("erro");
-  erro.style.display = "none";
+      const usuario = document.getElementById("usuario").value.trim();
+      const senha = document.getElementById("senha").value.trim();
+      const erro = document.getElementById("erro");
+      const btn = document.getElementById("btnLogin");
+      const spinner = document.getElementById("spinner");
+      const btnText = document.getElementById("btnText");
 
-  try {
-    const response = await fetch("https://inspecoes.pedro-fillype.workers.dev/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario, senha })
-    });
+      erro.style.display = "none";
 
-    const text = await response.text();
-    console.log("LOGIN STATUS:", response.status);
-    console.log("LOGIN BODY:", text);
+      // loading
+      btn.disabled = true;
+      spinner.style.display = "inline-block";
+      btnText.textContent = "Entrando...";
 
-    let data = {};
-    try { data = JSON.parse(text); } catch {}
+      try {
+        const response = await fetch("https://inspecoes.pedro-fillype.workers.dev/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, senha })
+        });
 
-    if (!response.ok || !data.sucesso) {
-      erro.style.display = "block";
-      return;
+        const text = await response.text();
+        console.log("LOGIN STATUS:", response.status);
+        console.log("LOGIN BODY:", text);
+
+        let data = {};
+        try { data = JSON.parse(text); } catch {}
+
+        if (!response.ok || !data.sucesso) {
+          erro.style.display = "block";
+          return;
+        }
+
+        localStorage.setItem("logado", "true");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("perfil", data.perfil);
+        localStorage.setItem("lider", data.lider || "");
+
+        window.location.href = "https://coec-epb.github.io/geral_colaboradores/";
+      } catch (e) {
+        console.error("ERRO NO FETCH:", e);
+        erro.style.display = "block";
+      } finally {
+        btn.disabled = false;
+        spinner.style.display = "none";
+        btnText.textContent = "Entrar";
+      }
     }
-
-    localStorage.setItem("logado", "true");
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("perfil", data.perfil);
-    localStorage.setItem("lider", data.lider || "");
-
-    window.location.href = "https://coec-epb.github.io/geral_colaboradores/";
-  } catch (e) {
-    console.error("ERRO NO FETCH:", e);
-    erro.style.display = "block";
-  }
-}
   </script>
 
 </body>
