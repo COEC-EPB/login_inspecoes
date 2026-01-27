@@ -308,6 +308,10 @@
         localStorage.setItem("perfil", data.perfil);
         localStorage.setItem("lider", data.lider || "");
 
+        // ✅ NOVO: salva a matrícula
+        const matricula = usuario.replace(/\D/g, "");
+        localStorage.setItem("matricula", matricula || usuario);
+
         window.location.href = "https://coec-epb.github.io/geral_colaboradores/";
       } catch (e) {
         console.error("ERRO NO FETCH:", e);
