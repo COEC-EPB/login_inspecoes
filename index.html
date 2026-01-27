@@ -268,7 +268,7 @@
     <div class="footer">© Controle de Inspeções</div>
   </div>
 
-  <script>
+  <script>  
     async function login() {
       const usuario = document.getElementById("usuario").value.trim();
       const senha = document.getElementById("senha").value.trim();
@@ -276,7 +276,15 @@
       const btn = document.getElementById("btnLogin");
       const spinner = document.getElementById("spinner");
       const btnText = document.getElementById("btnText");
-
+      
+      // ✅ limpa restos de logins antigos
+    localStorage.removeItem("matricula");
+    localStorage.removeItem("matriculaLogin");
+    localStorage.removeItem("logado");
+    localStorage.removeItem("token");
+    localStorage.removeItem("perfil");
+    localStorage.removeItem("lider");
+      
       erro.style.display = "none";
 
       // loading
@@ -310,7 +318,15 @@
 
         // ✅ NOVO: salva a matrícula
         const matricula = usuario.replace(/\D/g, "");
-        localStorage.setItem("matricula", matricula || usuario);
+
+localStorage.setItem("logado", "true");
+localStorage.setItem("token", data.token);
+localStorage.setItem("perfil", data.perfil);
+localStorage.setItem("lider", data.lider || "");
+
+// ✅ grava nas 2 chaves (compatibilidade)
+localStorage.setItem("matricula", matricula || usuario);
+localStorage.setItem("matriculaLogin", matricula || usuario);
 
         window.location.href = "https://coec-epb.github.io/geral_colaboradores/";
       } catch (e) {
